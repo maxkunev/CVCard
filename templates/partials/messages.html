@@ -1,0 +1,32 @@
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".working-alert").forEach(alert => {
+        setTimeout(() => {
+            bootstrap.Alert.getOrCreateInstance(alert).close();
+        }, 3000);
+    });
+});
+</script>
+
+<style>
+    .message_class{
+            z-index: 9999;
+        top: 70px;
+        right: 20px;
+        min-width: 300px;
+    }
+        
+</style>
+
+{% if messages %}
+        {% for message in messages %}
+            <div class="message_class alert alert-secondary alert-dismissible fade show shadow-sm position-fixed working-alert" role="alert">
+                    {{ message }}
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+            </div>
+        {% endfor %}
+{% endif %}

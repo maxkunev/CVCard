@@ -39,7 +39,7 @@ if not SECRET_KEY:
 
 DEBUG = (os.getenv("DEBUG", "False") == "True")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -163,3 +163,5 @@ CACHES = {
         "LOCATION": "cv-cache",
     }
 }
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
