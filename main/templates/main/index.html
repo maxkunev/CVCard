@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% load split %}
+{% include "django_bootstrap5" %}
+{% block title %} CV {% endblock title %}
+{% block headblock %}
+    <style>
+        
+        body { font-family: 'Inter', sans-serif; } 
+
+        .text_hover_class_index {
+         
+        }
+        .text_hover_class_index:hover{
+             color: #3b82f6 !important;
+        }
+        
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock headblock %}
+
+
+    
+{% block content %}
+    <main>
+        <section id="home" class="py-5 py-md-6 border-bottom">
+        <div class="container-lg py-4 py-md-5">
+            <div class="row g-5 align-items-start">
+            
+            <div class="col-12 col-lg-7">
+                <h1 class="display-2 fw-semibold lh-1 mb-3">{{ cvprofile.name }}</h1>
+                <p class="fs-3 text-secondary fw-light mb-4">{{ cvprofile.position }}</p>
+                <p class="fs-5 text-secondary mb-0">
+                {{ cvprofile.summary }}
+                </p>
+            </div>
+
+            <div class="col-12 col-lg-5">
+                <div class="row row-cols-1 g-3">
+                
+                <div class="col">
+                    <div class="border rounded-3 p-3 p-md-4">
+                    <div class="text-uppercase text-secondary small fw-semibold mb-1">Location</div>
+                    <div class="text-dark">{{ cvprofile.country }}</div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="border rounded-3 p-3 p-md-4">
+                    <div class="text-uppercase text-secondary small fw-semibold mb-1">Email</div>
+                    <a href="mailto:{{ cvprofile.email }}" class="text-decoration-none text-dark text_hover_class_index">{{ cvprofile.email }}</a>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="border rounded-3 p-3 p-md-4">
+                    <div class="text-uppercase text-secondary small fw-semibold mb-1">Phone</div>
+                    <a href="tel:{{ cvprofile.number }}" class="text-decoration-none text-dark text_hover_class_index">{{ cvprofile.number }}</a>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="border rounded-3 p-3 p-md-4">
+                    <div class="text-uppercase text-secondary small fw-semibold mb-1">Profiles</div>
+                    <div class="d-flex flex-column gap-2">
+                        <a href="{{ cvprofile.linkedin }}" class="text-decoration-none text-dark text_hover_class_index" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        <a href="{{ cvprofile.github }}" class="text-decoration-none text-dark text_hover_class_index" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> GitHub</a>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+            </div>
+        </div>
+        </section>
+
+        <section class="py-5 bg-light ">
+            <div class="container-lg py-4">
+
+                <p class="text-uppercase text-secondary fw-semibold small mb-1">What I work with</p>
+                <h2 class="fw-bold mb-5">Technology Stack</h2>
+
+                <div class="row g-4">
+                
+                {% for cvskill in cvskills %}
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="bg-white border border-light-subtle rounded-3 p-4 h-100">
+                        <p class="text-uppercase fw-semibold small text-secondary mb-3">{{ cvskill.category }}</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for skill in cvskill.technology_stack|parse_stack %}
+                                <span class="badge rounded-2 border border-secondary-subtle text-secondary fw-normal px-3 py-2 text-wrap" style="font-size: .85rem; white-space: normal;">{{ skill }}</span>
+                            {% endfor %}   
+                        </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="py-5 border-top border-bottom">
+            <div class="container-lg py-4">
+                <p class="text-uppercase text-secondary fw-semibold small mb-1">Where I've worked</p>
+                <h2 class="fw-bold mb-5">Experience</h2>
+                {% for cvexperience in cvexperiences %}
+                    <div class="row py-4 border-top align-items-start">
+                    <div class="col-12 col-md-9">
+                    <h3 class="fs-5 fw-bold mb-1">{{ cvexperience.title }}</h3>
+                    {% for text in cvexperience.description|split %}
+                        <p class="text-secondary mb-0">{{ text }}</p>
+                    {% endfor %}
+                </div>
+                <div class="col-12 col-md-3 text-md-end mt-3 mt-md-0">
+                    <span class="text-secondary small">{{ cvexperience.date_start|date:"F Y" }} — {{ cvexperience.date_end|date:"F Y" }}</span>
+                </div>
+                </div>
+                {% endfor %}
+
+                <div class="border-top"></div>
+
+            </div>
+        </section>
+        
+
+            <section class="py-5 bg-light">
+                <div class="container-lg py-4">
+
+                    <p class="text-uppercase text-secondary fw-semibold small mb-1">Things I've built</p>
+                    <h2 class="fw-bold mb-5">Projects</h2>
+                    {% for cvpetproject in cvpetprojects %}
+                        <div class="row py-4 border-top align-items-start">
+                            <div class="col-12 col-md-9">
+
+                                <div class="d-flex align-items-center gap-3 mb-1 flex-wrap">
+                                    <h3 class="fs-5 fw-bold mb-2">{{ cvpetproject.title }}</h3>
+
+                                    <div class="d-flex align-items-center gap-1 flex-wrap mb-2">
+                                        {% if cvpetproject.github_link %}
+                                            <a href="{{ cvpetproject.github_link }}" class="badge rounded-2 border border-secondary-subtle text-secondary fw-normal text-decoration-none px-3 py-2 text_hover_class_index" target="_blank" rel="noopener noreferrer">GitHub <i class="bi bi-box-arrow-up-right"></i></a>
+                                        {% endif %}
+                                        {% if cvpetproject.deploy_link %}
+                                            <a href="{{ cvpetproject.deploy_link }}" class="badge rounded-2 border border-secondary-subtle text-secondary fw-normal text-decoration-none px-3 py-2 text_hover_class_index" target="_blank" rel="noopener noreferrer">Live <i class="bi bi-box-arrow-up-right"></i></a>
+                                        {% endif %}
+                                    
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-dark mb-3">
+                                    {{ cvpetproject.description }}
+                                    </p>
+                                    <div class="border-top pt-3">
+                                        {% for text in cvpetproject.technology_stack|split %}
+                                            <p class="text-secondary small mb-1">{{ text }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-md-3 text-md-end mt-3 mt-md-0">
+                                <span class="text-secondary small">{{cvpetproject.date|date:"Y"}}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+            </section>
+
+            <section class="py-5 border-top border-bottom">
+            <div class="container-lg py-4">
+
+                <p class="text-uppercase text-secondary fw-semibold small mb-1">Academic background</p>
+                <h2 class="fw-bold mb-5">Education</h2>
+
+                {% for cveducation in cveducations %}
+                    <div class="row py-4 border-top align-items-start">
+                    <div class="col-12 col-md-9">
+                        <h3 class="fs-5 fw-bold mb-1">{{ cveducation.title }}</h3>
+                        <p class="text-secondary mb-2">{{ cveducation.field }}</p>
+                        <p class="text-dark mb-0">{{ cveducation.description|split|join:" " }}</p>
+                    </div>
+                    <div class="col-12 col-md-3 text-md-end mt-3 mt-md-0">
+                        <span class="text-secondary small">{{ cveducation.date_start|date:"Y" }} — {{ cveducation.date_end|date:"Y" }}</span>
+                    </div>
+                    </div>
+
+                    <div class="border-top"></div>
+                {% endfor %}
+
+            </div>
+            </section>
+
+            <section class="py-5 bg-light">
+            <div class="container-lg py-4">
+
+                <p class="text-uppercase text-secondary fw-semibold small mb-1">Continued learning</p>
+                <h2 class="fw-bold mb-5">Courses &amp; Certificates</h2>
+                {% for cvcourse in cvcourses %}
+                    <div class="row py-4 border-top border-bottom align-items-start">
+                        <div class="col-12 col-md-9">
+                            <h3 class="fs-5 fw-bold mb-1">{{ cvcourse.title }}</h3>
+                            <p class="text-secondary mb-0">{{ cvcourse.platform }}</p>
+                        </div>
+                        <div class="col-12 col-md-3 text-md-end mt-3 mt-md-0">
+                            <span class="text-secondary small">{{ cvcourse.date|date:"Y" }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+            </section>
+        
+    </main>
+    
+
+{% endblock content %}

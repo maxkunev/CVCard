@@ -1,0 +1,27 @@
+#Enviroment
+venv/
+env/
+
+#Data and medoa
+db.sqlite3
+media/
+
+#Cache
+__pycache__/
+*.pyc
+
+# Secrets and environment variables
+.env
+.env.*
+
+# Collected static 
+staticfiles/
+static/*
+!static/images/
+!static/js/
+
+# Data
+
+data.json
+prod_data.json
+*.sqlite3

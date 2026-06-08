@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} CV {% endblock title %}</title>
+    <style>
+        
+        body { font-family: 'Inter', sans-serif; } 
+
+        .text_hover_class {
+         
+        }
+        .text_hover_class:hover{
+            color: black !important;
+        }
+        
+    </style>
+    {% block headblock %}{% endblock headblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-white">
+    {% if messages %}
+        <h1>{{ messages }}</h1>
+    {% endif %}
+    <header class="sticky-top bg-white border-bottom">
+        <div class="container-lg d-flex align-items-center justify-content-between" style="height:64px;">
+
+        <a href="{% url "main:index" %}" class="text-decoration-none fw-semibold text-dark fs-6">
+            <span class="d-none d-md-inline">Maksym Kuniev</span>
+            <span class="d-inline d-md-none">MK</span>
+        </a>
+
+        <nav class="d-none d-md-block position-absolute start-50 translate-middle-x">
+            <a href="#home" class="text-decoration-none text-secondary small text_hover_class">Home</a>
+        </nav>
+
+        <nav class="d-flex gap-4 align-items-center">
+            <a href="#" class="text-decoration-none text-secondary small d-md-none text_hover_class">Home</a>
+            <a href="#" class="text-decoration-none text-secondary small text_hover_class">Projects</a>
+            <a href="#" class="text-decoration-none text-secondary small text_hover_class">Contact</a>
+        </nav>
+
+        </div>
+    </header>
+
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center">
+            {% block content %}
+    
+            {% endblock content %}
+    </main>
+
+    <footer class="border-top py-5">
+        <div class="container-lg d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div>
+            <span class="fw-medium text-dark small">Maksym Kuniev</span>
+            <span class="d-block text-secondary" style="font-size:.75rem;">© 2026. All rights reserved.</span>
+        </div>
+        <a href="https://github.com/maxkunev" class="text-decoration-none text-secondary small" target="_blank" rel="noopener noreferrer">
+            GitHub ↗
+        </a>
+        </div>
+    </footer>
+</body>
+</html>
