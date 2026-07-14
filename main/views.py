@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from main.models import *
 from django.contrib import messages
@@ -29,3 +30,6 @@ def projects(request):
 def contact(request):
     messages.info(request, "Contact form currently unavailable. Work in progress....")
     return redirect("main:index")
+
+def status(request):
+    return JsonResponse({'status': 'ok'})
