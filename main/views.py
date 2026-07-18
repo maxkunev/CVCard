@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
 from main.models import *
 from django.contrib import messages
 from django.core.cache import cache
@@ -23,13 +24,11 @@ def index(request):
     
     return render(request, "main/index.html", context=context)
 
-def projects(request):
-    messages.info(request, "Projects currently unavailable. Work in progress...")
-    return redirect("main:index")
-
 def contact(request):
     messages.info(request, "Contact form currently unavailable. Work in progress....")
-    return redirect("main:index")
+    return redirect(
+        request.META.get("HTTP_REFERER", reverse("main:index"))
+    )
 
 def status(request):
     return JsonResponse({'status': 'ok'})

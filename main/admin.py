@@ -23,8 +23,8 @@ class CVCoursesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CVProfile, CVProfileAdmin)
-admin.site.register(CVSkill)
-admin.site.register(CVExperience)
-admin.site.register(CVPetProject)
-admin.site.register(CVEducation)
-admin.site.register(CVCourses)
+admin.site.register(CVSkill, CVSkillAdmin)
+admin.site.register(CVExperience, CVExperienceAdmin)
+admin.site.register(CVPetProject, CVPetProjectAdmin)
+admin.site.register(CVEducation, CVEducationAdmin)
+admin.site.register(CVCourses, CVCoursesAdmin)

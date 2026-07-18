@@ -33,12 +33,12 @@
         </a>
 
         <nav class="d-none d-md-block position-absolute start-50 translate-middle-x">
-            <a href="#home" class="text-decoration-none text-secondary small text_hover_class">Home</a>
+            <a href="{% url "main:index" %}#home" class="text-decoration-none text-secondary small text_hover_class">Home</a>
         </nav>
 
         <nav class="d-flex gap-4 align-items-center">
             <a href="#" class="text-decoration-none text-secondary small d-md-none text_hover_class">Home</a>
-            <a href="{% url "main:projects" %}" class="text-decoration-none text-secondary small text_hover_class">Projects</a>
+            <a href="{% url "projects:projects" %}" class="text-decoration-none text-secondary small text_hover_class">Projects</a>
             <a href="{% url "main:contact" %}" class="text-decoration-none text-secondary small text_hover_class">Contact</a>
         </nav>
 

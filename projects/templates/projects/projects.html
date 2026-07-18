@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% include "django_bootstrap5" %}
+{% block title %} Projects {% endblock title %}
+{% load split %}
+
+{% block headblock %}
+    <style>
+        
+        body { font-family: 'Inter', sans-serif; } 
+
+        .text_hover_class_index {
+         
+        }
+        .text_hover_class_index:hover{
+             color: #3b82f6 !important;
+        }
+
+        .icon-trigger {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+        }
+
+        .icon-trigger::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5);
+            animation: trigger-pulse 2s ease-out infinite;
+            transition: box-shadow 0.6s ease, animation 0.6s ease;
+            pointer-events: none;
+        }
+
+        @keyframes trigger-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .icon-trigger:hover::before {
+            animation: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.6);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .icon-trigger::before {
+                animation: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock headblock %}
+
+{% block content %}
+
+<section class="py-0">
+    <div class="container-lg py-4">
+        <h2 class="fw-bold mb-1 d-flex align-items-center gap-2">
+            <i class="bi bi-rocket-takeoff text-primary"></i>
+            Projects
+        </h2>
+        <div class="border-bottom border-3 border-primary" style="width: 60px;"></div>
+
+        <div class="row g-4">
+        {% for cvpetproject in cvpetprojects %}
+            <div class="col-12">
+                <div class="card border rounded-3 shadow-sm h-100">
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                            <h3 class="fs-5 fw-bold mb-0">
+                                <a href="{% url "projects:project" cvpetproject.id %}" class="text-decoration-none text-dark text_hover_class_index d-inline-flex align-items-center gap-1">
+                                    {{ cvpetproject.title }}
+                                    <i class="bi bi-box-arrow-up-right fs-6"></i>
+                                </a>
+                            </h3>
+
+                            <div class="d-flex align-items-center gap-3">
+                                {% if cvpetproject.github_link %}
+                                    <a href="{{ cvpetproject.github_link }}" class="text-secondary text_hover_class_index icon-trigger" target="_blank" rel="noopener noreferrer" title="GitHub"><i class="bi bi-github fs-5"></i></a>
+                                {% endif %}
+                                {% if cvpetproject.deploy_link %}
+                                    <a href="{{ cvpetproject.deploy_link }}" class="text-secondary text_hover_class_index icon-trigger" target="_blank" rel="noopener noreferrer" title="Live"><i class="bi bi-globe fs-5"></i></a>
+                                {% endif %}
+                                <span class="text-secondary small">{{ cvpetproject.date|date:"Y" }}</span>
+                            </div>
+                        </div>
+
+                        <p class="text-dark mb-3">
+                        {{ cvpetproject.description }}
+                        </p>
+
+                        <div class="border-top pt-3">
+                            {% for text in cvpetproject.technology_stack|split %}
+                                <p class="text-secondary small mb-1">{{ text }}</p>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+{% endblock content %}

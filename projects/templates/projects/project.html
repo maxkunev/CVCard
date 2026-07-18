@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% include "django_bootstrap5" %}
+{% block title %} Projects {% endblock title %}
+{% load split %}
+
+{% block headblock %}
+    <style>
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
+        .text_hover_class_index {
+         
+        }
+        .text_hover_class_index:hover{
+             color: #3b82f6 !important;
+        }
+
+        .icon-trigger {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+        }
+
+        .icon-trigger::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5);
+            animation: trigger-pulse 2s ease-out infinite;
+            transition: box-shadow 0.6s ease, animation 0.6s ease;
+            pointer-events: none;
+        }
+
+        @keyframes trigger-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .icon-trigger:hover::before {
+            animation: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.6);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .icon-trigger::before {
+                animation: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const items = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        items.forEach((item) => observer.observe(item));
+    });
+    </script>
+{% endblock headblock %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+
+                <article>
+                    <header class="mb-5">
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            {% if project.github_link %}
+                                <a href="{{ project.github_link }}" class="text-secondary text_hover_class_index icon-trigger" target="_blank" rel="noopener noreferrer" title="GitHub"><i class="bi bi-github fs-5"></i></a>
+                            {% endif %}
+                            {% if project.deploy_link %}
+                                <a href="{{ project.deploy_link }}" class="text-secondary text_hover_class_index icon-trigger" target="_blank" rel="noopener noreferrer" title="Live"><i class="bi bi-globe fs-5"></i></a>
+                            {% endif %}
+                        </div>
+
+                        <h1 class="fw-bold mb-3">{{ project.title|before_pipe }}</h1>
+
+                        <div class="border-bottom border-3 border-primary mb-3" style="width: 60px;"></div>
+                        <p class="fs-5 text-secondary">{{ project.description }}</p>
+                    </header>
+
+                    <hr class="my-5">
+
+                    {% for info in information %}
+                        <div class="reveal mb-5">
+                            {% if info.title %}
+                                <h2 class="fs-4 fw-bold mb-3">{{ info.title }}</h2>
+                            {% endif %}
+                            {% if info.description %}
+                                <p class="fs-5 lh-lg text-secondary">{{ info.description|render_bullets }}</p>
+                            {% endif %}
+                            {% if info.image %}
+                                <figure class="figure w-100 mb-4">
+                                    <img src="{{ info.image.url }}" alt="{{ info.title }}" class="figure-img img-fluid rounded-3 shadow-sm w-100">
+                                    {% if info.title %}
+                                        <figcaption class="figure-caption text-center mt-2">{{ info.title }}</figcaption>
+                                    {% endif %}
+                                </figure>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </article>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

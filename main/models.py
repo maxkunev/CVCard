@@ -50,7 +50,7 @@ class CVPetProject(models.Model):
     github_link = models.URLField(null=True, blank=True) 
     deploy_link = models.URLField(null=True, blank=True) 
     description = models.TextField(max_length=500, null=True, blank=True)
-    technology_stack = models.TextField(max_length=1000)
+    technology_stack = models.TextField(max_length=1500)
     class Meta:
         ordering = ['-date']
         verbose_name = "04. CVPetProject"    

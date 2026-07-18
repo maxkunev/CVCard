@@ -37,13 +37,11 @@ if not SECRET_KEY:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = (os.getenv("DEBUG", "False") == "True")
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.up.railway.app', 
-]
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
 
 
 # Application definition
@@ -58,9 +56,12 @@ INSTALLED_APPS = [
     
     #myApps
     'main',
+    'projects',
     #myModules
     'django_bootstrap5',
-    'phonenumber_field'
+    'phonenumber_field',
+    'cloudinary',
+    'cloudinary_storage'
 ]
 
 MIDDLEWARE = [
@@ -110,19 +111,16 @@ SQLITE_URL = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
 
 DATABASES = {
     'default':dj_database_url.config(
-                default=os.getenv('DATABASE_URL', SQLITE_URL),
+                default=os.getenv('DATABASE_URL'),
                 conn_max_age=600,
                 conn_health_checks=True
         )
     
 }
 
-if not DATABASES['default']:
-    DATABASES['default'] = dj_database_url.parse(
-        SQLITE_URL,
-        conn_max_age=600,
-        conn_health_checks=True
-    )
+DATABASES['default']['OPTIONS'] = {
+    'sslmode': 'require',
+}
 
 
 
@@ -164,7 +162,23 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ["CLOUDINARY_CLOUD_NAME"],
+    "API_KEY": os.environ["CLOUDINARY_API_KEY"],
+    "API_SECRET": os.environ["CLOUDINARY_API_SECRET"],
+}
+
 STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
