@@ -52,6 +52,11 @@
                 animation: none;
             }
         }
+        .title-link {
+            display: inline;
+            white-space: normal;
+            text-align: justify;
+        }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 {% endblock headblock %}
@@ -72,15 +77,15 @@
                 <div class="card border rounded-3 shadow-sm h-100">
                     <div class="card-body p-4">
 
-                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-baseline gap-2 mb-2">
                             <h3 class="fs-5 fw-bold mb-0">
-                                <a href="{% url "projects:project" cvpetproject.id %}" class="text-decoration-none text-dark text_hover_class_index d-inline-flex align-items-center gap-1">
-                                    {{ cvpetproject.title }}
-                                    <i class="bi bi-box-arrow-up-right fs-6"></i>
+                                <a href="{% url "projects:project" cvpetproject.id %}"
+                                class="text-decoration-none text-dark text_hover_class_index title-link">
+                                    {{ cvpetproject.title }}&nbsp;<i class="bi bi-box-arrow-up-right fs-6"></i>
                                 </a>
                             </h3>
 
-                            <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-3 flex-shrink-0">
                                 {% if cvpetproject.github_link %}
                                     <a href="{{ cvpetproject.github_link }}" class="text-secondary text_hover_class_index icon-trigger" target="_blank" rel="noopener noreferrer" title="GitHub"><i class="bi bi-github fs-5"></i></a>
                                 {% endif %}

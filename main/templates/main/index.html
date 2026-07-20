@@ -13,7 +13,14 @@
         .text_hover_class_index:hover{
              color: #3b82f6 !important;
         }
-        
+        .badge, a, p, h1, h2, h3 {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+       html, body {
+            overflow-x: clip;
+            max-width: 100%;
+        }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 {% endblock headblock %}
